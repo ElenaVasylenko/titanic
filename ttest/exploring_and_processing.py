@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-
 import os
+import matplotlib.pyplot as plt
 
 train_file_path = 'D:\\UNI\\Uni IV\\titanic\\data_files\\train.csv'
 test_file_path = 'D:\\UNI\\Uni IV\\titanic\\data_files\\test.csv'
@@ -29,3 +29,16 @@ print(df.Name)
 print(df.loc[5:10, ['Survived', 'Fare','Embarked']])
 male_passengers = df.loc[((df.Sex == 'male') & (df.Pclass == 1)),:]
 print('Num of male passengers in first clas {0}'.format(len(male_passengers)))
+
+## Univariate distribution
+
+# df.Pclass.value_counts().plot(kind='bar', rot=0,title='classwise passengers count', color='c')
+# plt.show()
+# df.Age.plot(kind='hist', title='histogram of passengers age',color='c', bins=20)
+#df.Age.plot(kind='kde', title='histogram of passengers age',color='c')
+df.Fare.plot(kind='hist', title='histogram for fare', color='c', bins=20)
+plt.show()
+print('skewness for age: {}'.format(df.Age.skew()))
+print('skewness for fare: {}'.format(df.Fare.skew()))
+
+## Bivariate distribution
