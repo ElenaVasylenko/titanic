@@ -14,16 +14,19 @@ test_df['Survived'] = -888 #Add Survived column for prediction
 df = pd.concat((train_df, test_df), axis=0)
 
 print(df.info())
-null_em = df[df.Embarked.isnull()]
-print(null_em)
-v_c_em = df.Embarked.value_counts()
-pd.crosstab(df[df.Survived != -888].Survived, df[df.Survived != -888].Embarked)
-# df.loc[df.Embarked.isnull(), 'Embarked'] = 'S'
-# df.Embarked.fillna('S', inplace=True)
-df.groupby(['Pclass', 'Embarked']).Fare.median()
-df.Embarked.fillna('C', inplace=True)
-null_em1 = df[df.Embarked.isnull()]
-print(df.info())
+
+def fix_nv_embarked(df):
+    null_em = df[df.Embarked.isnull()]
+    print(null_em)
+    v_c_em = df.Embarked.value_counts()
+    pd.crosstab(df[df.Survived != -888].Survived, df[df.Survived != -888].Embarked)
+    # df.loc[df.Embarked.isnull(), 'Embarked'] = 'S'
+    # df.Embarked.fillna('S', inplace=True)
+    df.groupby(['Pclass', 'Embarked']).Fare.median()
+    df.Embarked.fillna('C', inplace=True)
+    null_em1 = df[df.Embarked.isnull()]
+    print(df.info())
+    return df
 
 def fix_nv_fare(df):
     print(df[df.Fare.isnull()])
@@ -31,6 +34,7 @@ def fix_nv_fare(df):
     print(median_fare)
     df.Fare.fillna(median_fare, inplace=True)
     print(df.info())
+    return df
 
 def fix_nv_age(df):
     pd.options.display.max_rows = 15
@@ -58,6 +62,7 @@ def fix_nv_age(df):
     title_age_median = df.groupby('Title').Age.transform('median')
     df.Age.fillna(title_age_median, inplace=True)
     print(df.info())
+    return df
 
 def get_title(name):
     title_group = {
@@ -85,5 +90,5 @@ def get_title(name):
     title = title.strip().lower()
     return title_group[title]
 
-fix_nv_age(df)
+
 
