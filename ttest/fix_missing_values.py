@@ -6,8 +6,8 @@ class FixMissingValues:
 
     def __init__(self):
 
-        self.train_file_path = '/home/ovasylenko/titanic/data_files/train.csv'
-        self.test_file_path = '/home/ovasylenko/titanic/data_files/test.csv'
+        self.train_file_path = "C:\\Users\\ovasylenko\\Desktop\\uni\\titanic\\data_files\\train.csv"
+        self.test_file_path = "C:\\Users\\ovasylenko\\Desktop\\uni\\titanic\\data_files\\test.csv"
 
         self.train_df = pd.read_csv(self.train_file_path, index_col='PassengerId')
         self.test_df = pd.read_csv(self.test_file_path, index_col='PassengerId')
@@ -92,8 +92,10 @@ class FixMissingValues:
         print(df.info())
         return df
 
-ms = FixMissingValues()
-ms.fix_nv_embarked(df=ms.df)
-ms.fix_nv_fare(df=ms.df)
-ms.fix_nv_age(df=ms.df)
-print(ms.df.info())
+    def get_df_wo_missing_values(self):
+        self.fix_nv_embarked(df=self.df)
+        self.fix_nv_fare(df=self.df)
+        self.fix_nv_age(df=self.df)
+        return self.df
+
+# print(ms.get_df_wo_missing_values().info())
