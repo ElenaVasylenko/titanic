@@ -1,21 +1,12 @@
 import pandas as pd
+import numpy as np
+from src.data.data_extractor import data_extractor_df
 import matplotlib.pyplot as plt
-
 
 class FixMissingValues:
 
     def __init__(self):
-
-        self.train_file_path = "C:\\Users\\ovasylenko\\Desktop\\uni\\titanic\\data_files\\train.csv"
-        self.test_file_path = "C:\\Users\\ovasylenko\\Desktop\\uni\\titanic\\data_files\\test.csv"
-
-        self.train_df = pd.read_csv(self.train_file_path, index_col='PassengerId')
-        self.test_df = pd.read_csv(self.test_file_path, index_col='PassengerId')
-
-        print(self.train_df.info())
-        self.test_df['Survived'] = -888 #Add Survived column for prediction
-        self.df = pd.concat((self.train_df, self.test_df), axis=0)
-        print(self.df.info())
+        self.df = data_extractor_df
 
     def fix_nv_embarked(self, df):
         null_em = df[df.Embarked.isnull()]
@@ -67,7 +58,7 @@ class FixMissingValues:
     def fix_nv_age(self, df):
         pd.options.display.max_rows = 15
         print(df[df.Age.isnull()])
-        df.Age.plot(kind='hist', bins=20)
+        # df.Age.plot(kind='hist', bins=20)
         # plt.show()
         mean_age = df.Age.mean()
         print(mean_age)
@@ -98,4 +89,17 @@ class FixMissingValues:
         self.fix_nv_age(df=self.df)
         return self.df
 
-# print(ms.get_df_wo_missing_values().info())
+    def treating_outliers(self, df):
+        # df.Fare.plot(kind='hist', title='histogram for fare', bins=20, color='c')
+        # plt.show()
+        # log_fare = np.log(df.Fare + 1.0)
+        pd.qcut(df.Fare, 4)
+        pd.qcut(df.Fare, 4, labels=['very_low', 'low', 'high', 'very_high'])
+        pd.qcut(df.Fare, 4, labels=['very_low', 'low', 'high', 'very_high']).value_counts()
+        df['Fare_Bin'] = pd.qcut(df.Fare, 4, labels=['very_low', 'low', 'high', 'very_high'])
+
+mv = FixMissingValues()
+# mv.get_df_wo_missing_values()
+mv.treating_outliers(mv.df)
+mv.get_df_wo_missing_values()
+CLEANED_DATA = mv.df
