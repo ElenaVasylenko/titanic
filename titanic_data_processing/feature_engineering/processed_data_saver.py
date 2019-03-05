@@ -12,4 +12,4 @@ test_path = os.path.join(processed_data_path, 'test.csv')
 df.loc[df.Survived != -888].to_csv(train_path)
 #test
 columns = [col for col in df.columns if col != 'Survived']
-df.loc[df.Survived != -888, columns].to_csv(test_path)
+df.loc[df.Survived == -888, columns].to_csv(test_path)

@@ -6,11 +6,13 @@ class PredictModel:
 
     def __init__(self):
         self.df = data_extractor_df
-        self.train_df = data_extractor.get_train_df()
-        self.test_df = data_extractor.get_test_df()
+        self.train_df = data_extractor.get_processed_train_df()
+        self.test_df = data_extractor.get_processed_test_df()
 
     def prepare_data(self):
         print(self.train_df.info())
+        print('-'*100)
+        print(self.test_df.info())
 
 
 
